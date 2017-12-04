@@ -1,8 +1,9 @@
-local gamestate = require("lib.gamestate")
+gamestate = require("lib.gamestate")
 
 -- load gamestates
 -- require("gamestates.test")
 require("gamestates.mainmenu")
+require("gamestates.game")
 
 
 function love.load()
@@ -10,6 +11,7 @@ function love.load()
   -- gamestate.switch("test")
 
   gamestate.new("mainmenu", mainmenu)
+  gamestate.new("game", game)
   gamestate.switch("mainmenu")
 end
 

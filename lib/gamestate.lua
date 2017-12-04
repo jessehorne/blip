@@ -10,6 +10,9 @@ end
 
 function gamestate.switch(name)
   gamestate.current = name
+  if gamestate.gamestates[gamestate.current]["load"] then
+    gamestate.gamestates[gamestate.current]:load()
+  end
 end
 
 -- Callbacks
