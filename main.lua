@@ -1,4 +1,5 @@
 gamestate = require("lib.gamestate")
+math = require("lib.math")
 
 -- load gamestates
 -- require("gamestates.test")
@@ -23,4 +24,10 @@ end
 
 function love.draw()
   gamestate.draw()
+
+  -- draw mouse cursor
+  love.graphics.setColor(190, 190, 199, 100)
+  love.graphics.circle("fill", love.mouse.getX(), love.mouse.getY(), 10)
+
+  love.graphics.setColor(255, 255, 255)
 end

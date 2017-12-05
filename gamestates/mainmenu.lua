@@ -1,6 +1,3 @@
-local math = require("lib.math")
-
-
 mainmenu = {}
 
 
@@ -37,9 +34,6 @@ mainmenu.turret_text = "Build"
 mainmenu.buttons = {}
 
 
-love.graphics.setBackgroundColor(45, 45, 48)
-
-
 function mainmenu.addButton(text, func)
   local b = {}
 
@@ -67,10 +61,9 @@ function mainmenu.createEnemy(color)
 end
 
 
-function mainmenu.createTurret(color)
+function mainmenu.createTurret()
   local t = {}
 
-  t.color = color
   t.size = 10 + (#mainmenu.turrets*4)
   t.x = #mainmenu.turrets*((t.size+mainmenu.enemy_padding_x)-#mainmenu.turrets*2)
   t.y = (mainmenu.enemy_margin_y + 80)-#mainmenu.turrets*2
@@ -96,6 +89,8 @@ function mainmenu.load()
   mainmenu.createTurret({39, 47, 188})
 
   love.mouse.setVisible(false)
+
+  love.graphics.setBackgroundColor(45, 45, 48)
 end
 
 
@@ -154,13 +149,7 @@ function mainmenu.draw()
   love.graphics.print(mainmenu.turret_text, 50, mainmenu.enemy_margin_y + 60)
 
   for i,v in ipairs(mainmenu.turrets) do
-    love.graphics.setColor(unpack(v.color))
+    love.graphics.setColor(123, 163, 198)
     love.graphics.rectangle("fill", (mainmenu.enemy_text_margin_x + mainmenu.enemy_margin_x + v.x)-v.size/2, v.y, v.size, v.size)
   end
-
-  -- draw mouse cursor
-  love.graphics.setColor(190, 190, 199, 100)
-  love.graphics.circle("fill", love.mouse.getX(), love.mouse.getY(), 10)
-
-  love.graphics.setColor(255, 255, 255)
 end
