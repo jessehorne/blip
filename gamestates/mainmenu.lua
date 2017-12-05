@@ -22,6 +22,18 @@ mainmenu.title_y = 60
 mainmenu.second_title_x = mainmenu.screen_width/2+mainmenu.title_width/2+30
 mainmenu.second_title_y = 120
 
+mainmenu.enemies = {}
+mainmenu.enemy_text = "Destroy"
+mainmenu.enemy_text_margin_x = mainmenu.button_font:getWidth(mainmenu.enemy_text) + 50
+mainmenu.enemy_margin_x = 70
+mainmenu.enemy_margin_y = 360
+mainmenu.enemy_padding_x = 40
+
+
+mainmenu.turrets = {}
+mainmenu.turret_text = "Build"
+
+
 mainmenu.buttons = {}
 
 
@@ -43,9 +55,45 @@ function mainmenu.addButton(text, func)
 end
 
 
+function mainmenu.createEnemy(color)
+  local e = {}
+
+  e.color = color
+  e.size = 10 + (#mainmenu.enemies*2)
+  e.x = #mainmenu.enemies*(e.size+mainmenu.enemy_padding_x)
+  e.y = mainmenu.enemy_margin_y
+
+  table.insert(mainmenu.enemies, e)
+end
+
+
+function mainmenu.createTurret(color)
+  local t = {}
+
+  t.color = color
+  t.size = 10 + (#mainmenu.turrets*4)
+  t.x = #mainmenu.turrets*((t.size+mainmenu.enemy_padding_x)-#mainmenu.turrets*2)
+  t.y = (mainmenu.enemy_margin_y + 80)-#mainmenu.turrets*2
+
+  table.insert(mainmenu.turrets, t)
+end
+
+
 function mainmenu.load()
   mainmenu.addButton("Start", (function() gamestate.switch("game") end))
   mainmenu.addButton("Quit", (function() love.event.quit() end))
+
+  mainmenu.createEnemy({211, 211, 226})
+  mainmenu.createEnemy({201, 209, 87})
+  mainmenu.createEnemy({93, 198, 95})
+  mainmenu.createEnemy({168, 155, 155})
+  mainmenu.createEnemy({134, 39, 188})
+
+  mainmenu.createTurret({154, 154, 165})
+  mainmenu.createTurret({209, 166, 87})
+  mainmenu.createTurret({25, 229, 28})
+  mainmenu.createTurret({247, 101, 101})
+  mainmenu.createTurret({39, 47, 188})
 
   love.mouse.setVisible(false)
 end
@@ -88,6 +136,26 @@ function mainmenu.draw()
     end
 
     love.graphics.print(v.text, v.x, v.y)
+  end
+
+  -- draw enemies
+  love.graphics.setColor(190, 190, 199)
+  love.graphics.setFont(mainmenu.button_font)
+  love.graphics.print(mainmenu.enemy_text, 50, mainmenu.enemy_margin_y - 30)
+
+  for i,v in ipairs(mainmenu.enemies) do
+    love.graphics.setColor(unpack(v.color))
+    love.graphics.circle("fill", mainmenu.enemy_text_margin_x + mainmenu.enemy_margin_x + v.x, v.y, v.size)
+  end
+
+  -- draw turrets
+  love.graphics.setColor(190, 190, 199)
+  love.graphics.setFont(mainmenu.button_font)
+  love.graphics.print(mainmenu.turret_text, 50, mainmenu.enemy_margin_y + 60)
+
+  for i,v in ipairs(mainmenu.turrets) do
+    love.graphics.setColor(unpack(v.color))
+    love.graphics.rectangle("fill", (mainmenu.enemy_text_margin_x + mainmenu.enemy_margin_x + v.x)-v.size/2, v.y, v.size, v.size)
   end
 
   -- draw mouse cursor
